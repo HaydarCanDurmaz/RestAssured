@@ -122,7 +122,26 @@ public class ZippoTest {
 
                 .then()
                 .statusCode(200)
-                //.log().body()
+        //.log().body()
+
+
+        ;
+    }
+
+    @Test
+    public void queryParamTest() {
+        given()
+                .param("page", 1)
+                .log().uri()
+
+
+                .when()
+                .get("\n" +
+                        "https://gorest.co.in/public/v1/users")
+
+                .then()
+                .statusCode(200)
+                .log().body()
 
 
         ;
