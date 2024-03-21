@@ -6,6 +6,7 @@ import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -200,6 +201,7 @@ public class ZippoTest {
 
 
     }
+
     RequestSpecification requestSpec;
     ResponseSpecification responseSpec;
 
@@ -219,6 +221,7 @@ public class ZippoTest {
                 .log(LogDetail.BODY)
                 .build();
     }
+
     @Test
     public void requestResponseSpecificationn() {
         // https://gorest.co.in/public/v1/users?page=3
@@ -234,5 +237,32 @@ public class ZippoTest {
                 .spec(responseSpec)
         ;
     }
-}
 
+    @Test
+    public void extractingJsonPath() {
+        String countryName = given()
+
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+
+                .then()
+                //.log().body()
+                .extract().path("country");
+        System.out.println("countryName = " + countryName);
+        Assert.assertEquals(countryName,"United States");
+    }
+    @Test
+    public void extractingJsonPath2() {
+        String placeName = given()
+
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+
+                .then()
+                //.log().body()
+                .extract().path("places[0].'place name'");
+        System.out.println("placeName = " + placeName);
+        Assert.assertEquals(placeName,"Beverly Hills");
+    }
+
+}
