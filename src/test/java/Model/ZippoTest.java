@@ -1,3 +1,5 @@
+package Model;
+
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
 import static io.restassured.RestAssured.*;
