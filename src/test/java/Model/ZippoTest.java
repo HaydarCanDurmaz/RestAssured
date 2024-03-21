@@ -55,4 +55,20 @@ public class ZippoTest {
 
         ;
     }
+    @Test
+    public void checkCityInResponsiveBody(){
+        given()
+
+                .when()
+                .get("https://api.zippopotam.us/us/90210")
+
+                .then()
+                .log().body() // .log().all() Her şeyi alır
+                .statusCode(200) // dönüş kodu 200 mü
+                .contentType(ContentType.JSON) // dönen sonuç JSon mı
+                .body("places[0].state",equalTo("California")) // body conutry degişkeni United States eşitmi
+
+        ;
+    }
 }
+//
