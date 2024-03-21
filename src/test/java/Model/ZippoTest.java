@@ -297,10 +297,27 @@ public class ZippoTest {
                         .get("https://gorest.co.in/public/v1/users")
 
                         .then()
-       //                 .statusCode(200)
+                       .statusCode(200)
                         .extract().path("data.id"); // bütün id leri ver
         ;
 
         System.out.println("idler = " + idler);
+    }
+    @Test
+    public void extractingJsonPath5() {
+        // https://gorest.co.in/public/v1/users  dönen değerdeki bütün name lei yazdırınız.
+
+        List<String> names =
+                given()
+
+                        .when()
+                        .get("https://gorest.co.in/public/v1/users")
+
+                        .then()
+                        .statusCode(200)
+                        .extract().path("data.name"); // bütün name leri ver
+        ;
+
+        System.out.println("names = " + names);
     }
 }
