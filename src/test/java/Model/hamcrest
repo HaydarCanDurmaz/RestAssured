@@ -21,3 +21,8 @@ equalToIgnoringWhiteSpace – It checks whether the extracted string from JSON i
 containsString – It checks whether the extracted string from JSON contains the expected string as a substring.
 startsWith – It checks whether the extracted string from JSON is starting with a given string or character.
 endsWith – It checks whether the extracted string from JSON is ending with a given string or character.
+
+
+
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
