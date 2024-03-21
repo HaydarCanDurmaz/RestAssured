@@ -15,6 +15,8 @@ import static org.hamcrest.Matchers.*;
 
 import org.hamcrest.Matchers.*;
 
+import java.util.List;
+
 public class ZippoTest {
     @Test
     public void test() {
@@ -249,8 +251,9 @@ public class ZippoTest {
                 //.log().body()
                 .extract().path("country");
         System.out.println("countryName = " + countryName);
-        Assert.assertEquals(countryName,"United States");
+        Assert.assertEquals(countryName, "United States");
     }
+
     @Test
     public void extractingJsonPath2() {
         String placeName = given()
@@ -259,10 +262,45 @@ public class ZippoTest {
                 .get("http://api.zippopotam.us/us/90210")
 
                 .then()
-                //.log().body()
+                .log().body()
                 .extract().path("places[0].'place name'");
         System.out.println("placeName = " + placeName);
-        Assert.assertEquals(placeName,"Beverly Hills");
+        Assert.assertEquals(placeName, "Beverly Hills");
     }
 
+    @Test
+    public void extractingJsonPath3() {
+        // https://gorest.co.in/public/v1/users  dönen değerdeki limit bilgisini yazdırınız.
+
+        int limit =
+                given()
+
+                        .when()
+                        .get("https://gorest.co.in/public/v1/users")
+
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+                        .extract().path("meta.pagination.limit");
+
+        System.out.println("limit = " + limit);
+
+    }
+    @Test
+    public void extractingJsonPath4() {
+        // https://gorest.co.in/public/v1/users  dönen değerdeki bütün idleri yazdırınız.
+
+        List<Integer> idler =
+                given()
+
+                        .when()
+                        .get("https://gorest.co.in/public/v1/users")
+
+                        .then()
+       //                 .statusCode(200)
+                        .extract().path("data.id"); // bütün id leri ver
+        ;
+
+        System.out.println("idler = " + idler);
+    }
 }
