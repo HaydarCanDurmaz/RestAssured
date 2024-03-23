@@ -373,4 +373,19 @@ public class ZippoTest {
 
 
     }
+    @Test
+    public void extractJsonAll_POJO_Soru() {
+        // aşağıdaki endpointte(link)  Dörtağaç Köyü ait diğer bilgileri yazdırınız
+
+        given()
+
+                .when()
+                .get("http://api.zippopotam.us/tr/01000")
+
+                .then()
+                //.log().body()
+                .statusCode(200)
+
+        ;
+    }
 }
