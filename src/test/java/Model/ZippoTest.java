@@ -349,4 +349,28 @@ public class ZippoTest {
         Assert.assertTrue(idler.contains(1203767));
         Assert.assertEquals(limit, 10, "test sonucu hatalı");
     }
+    @Test
+    public void extractJsonAll_POJO() {
+        // POJO : JSON nesnesi : locationNesnesi
+        Location locationNesnesi =
+                given()
+                        .when()
+                        .get("http://api.zippopotam.us/us/90210")
+
+                        .then()
+                        .log().body()
+                        .extract().body().as(Location.class);
+
+        // location şablonuna
+
+        System.out.println("locationNesnesi.getCountry() = " +
+                locationNesnesi.getCountry());
+
+        for(Place p: locationNesnesi.getPlaces())
+            System.out.println("p = " + p);
+
+        System.out.println(locationNesnesi.getPlaces().get(0).getPlacename());
+
+
+    }
 }
