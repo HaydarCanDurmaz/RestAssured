@@ -11,7 +11,7 @@ public class Place {
     public String getPlacename() {
         return placename;
     }
-@JsonProperty("place name")
+    @JsonProperty("place name")
     public void setPlacename(String placename) {
         this.placename = placename;
     }
@@ -35,20 +35,10 @@ public class Place {
     public String getStateabbreviation() {
         return stateabbreviation;
     }
-    @JsonProperty("state abbreviation")
+@JsonProperty("state abbreviation")
     public void setStateabbreviation(String stateabbreviation) {
         this.stateabbreviation = stateabbreviation;
     }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    String latitude;
 
     @Override
     public String toString() {
@@ -57,7 +47,7 @@ public class Place {
                 ", longitute='" + longitute + '\'' +
                 ", state='" + state + '\'' +
                 ", stateabbreviation='" + stateabbreviation + '\'' +
-                ", latitude='" + latitude + '\'' +
                 '}';
     }
 }
+

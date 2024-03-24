@@ -1,5 +1,7 @@
-package Model;
 
+
+import Model.Location;
+import Model.Place;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -11,14 +13,13 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-import org.hamcrest.Matchers.*;
-
-import java.util.List;
-
 public class ZippoTest {
+
     @Test
     public void test() {
 
@@ -202,8 +203,8 @@ public class ZippoTest {
             ;
         }
 
-
     }
+
 
     RequestSpecification requestSpec;
     ResponseSpecification responseSpec;
@@ -225,6 +226,7 @@ public class ZippoTest {
                 .build();
     }
 
+
     @Test
     public void requestResponseSpecificationn() {
         // https://gorest.co.in/public/v1/users?page=3
@@ -243,28 +245,33 @@ public class ZippoTest {
 
     @Test
     public void extractingJsonPath() {
-        String countryName = given()
 
-                .when()
-                .get("http://api.zippopotam.us/us/90210")
+        String countryName =
+                given()
+                        .when()
+                        .get("http://api.zippopotam.us/us/90210")
 
-                .then()
-                //.log().body()
-                .extract().path("country");
+                        .then()
+                        //.log().body()
+                        .extract().path("country");
+
         System.out.println("countryName = " + countryName);
         Assert.assertEquals(countryName, "United States");
     }
 
     @Test
     public void extractingJsonPath2() {
-        String placeName = given()
+        //placeName
+        String placeName =
+                given()
+                        .when()
+                        .get("http://api.zippopotam.us/us/90210")
 
-                .when()
-                .get("http://api.zippopotam.us/us/90210")
+                        .then()
+                        .log().body()
+                        .extract().path("places[0].'place name'")  // places[0]['place name']
+                ;
 
-                .then()
-                .log().body()
-                .extract().path("places[0].'place name'");
         System.out.println("placeName = " + placeName);
         Assert.assertEquals(placeName, "Beverly Hills");
     }
@@ -285,8 +292,8 @@ public class ZippoTest {
                         .extract().path("meta.pagination.limit");
 
         System.out.println("limit = " + limit);
-
     }
+
     @Test
     public void extractingJsonPath4() {
         // https://gorest.co.in/public/v1/users  dönen değerdeki bütün idleri yazdırınız.
@@ -298,12 +305,13 @@ public class ZippoTest {
                         .get("https://gorest.co.in/public/v1/users")
 
                         .then()
-                       .statusCode(200)
+                        .statusCode(200)
                         .extract().path("data.id"); // bütün id leri ver
         ;
 
         System.out.println("idler = " + idler);
     }
+
     @Test
     public void extractingJsonPath5() {
         // https://gorest.co.in/public/v1/users  dönen değerdeki bütün name lei yazdırınız.
@@ -316,11 +324,12 @@ public class ZippoTest {
 
                         .then()
                         .statusCode(200)
-                        .extract().path("data.name"); // bütün name leri ver
+                        .extract().path("data.name"); // bütün id leri ver
         ;
 
         System.out.println("names = " + names);
     }
+
     @Test
     public void extractingJsonPathResponsAll() {
         // https://gorest.co.in/public/v1/users  dönen değerdeki bütün name lei yazdırınız.
@@ -349,6 +358,7 @@ public class ZippoTest {
         Assert.assertTrue(idler.contains(1203767));
         Assert.assertEquals(limit, 10, "test sonucu hatalı");
     }
+
     @Test
     public void extractJsonAll_POJO() {
         // POJO : JSON nesnesi : locationNesnesi
@@ -377,15 +387,25 @@ public class ZippoTest {
     public void extractJsonAll_POJO_Soru() {
         // aşağıdaki endpointte(link)  Dörtağaç Köyü ait diğer bilgileri yazdırınız
 
-        given()
+        Location adana =
+                given()
 
-                .when()
-                .get("http://api.zippopotam.us/tr/01000")
+                        .when()
+                        .get("http://api.zippopotam.us/tr/01000")
 
-                .then()
-                //.log().body()
-                .statusCode(200)
+                        .then()
+                        //  .log().body()    // dönen body json datat sı,   log.all()
+                        .statusCode(200)
+                        .extract().body().as(Location.class);
+        for (Place p : adana.getPlaces())
+            if (p.getPlacename().equalsIgnoreCase("Dörtağaç Köyü"))
+            {
+                System.out.println("p = " + p);
+            }
 
-        ;
+
+
     }
+
+
 }
