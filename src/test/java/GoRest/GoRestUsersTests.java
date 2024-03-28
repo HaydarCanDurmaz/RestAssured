@@ -1,7 +1,10 @@
 package GoRest;
 
 import com.github.javafaker.Faker;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -13,6 +16,16 @@ import static org.hamcrest.Matchers.*;
 public class GoRestUsersTests {
     Faker faker = new Faker();
     int userID;
+
+    RequestSpecification requestSpecification;
+    @BeforeClass
+    public void setup(){
+        requestSpecification = new RequestSpecBuilder()
+                .addHeader("Authorization", "Bearer 5d0ab4dcbd48e6378fefac952a31f043225aa55d8f3de3e8f0d7d0cbd3c82542")
+                .setContentType(ContentType.JSON)
+                .build();
+
+    }
 
     @Test
     public void createUserJson() {
@@ -140,7 +153,7 @@ public class GoRestUsersTests {
                 .contentType(ContentType.JSON)
 
                 .when()
-                .put("https://gorest.co.in/public/v2/users/")
+                .put("https://gorest.co.in/public/v2/users/"+userID)
 
                 .then()
                 .log().body()
