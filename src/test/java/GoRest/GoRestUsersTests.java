@@ -43,22 +43,36 @@ public class GoRestUsersTests {
 
     }
 
-    @Test
+    @Test(dependsOnMethods = "createUser")
     public void getUserByID() {
+        given()
+                .header("Authorization", "Bearer 5d0ab4dcbd48e6378fefac952a31f043225aa55d8f3de3e8f0d7d0cbd3c82542")
+                .contentType(ContentType.JSON)
+
+                .when()
+                .get("https://gorest.co.in/public/v2/users/"+userID)
+
+                .then()
+                .log().body()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("id",equalTo(userID))
+
+                ;
 
     }
 
-    @Test
-    public void updatUser() {
+    @Test(dependsOnMethods = "getUserByID")
+    public void updateUser() {
 
     }
 
-    @Test
+    @Test(dependsOnMethods = "updateUser")
     public void deleteUser() {
 
     }
 
-    @Test
+    @Test(dependsOnMethods = "deleteUser")
     public void deleteUserNegative() {
 
     }
