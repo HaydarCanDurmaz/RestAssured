@@ -1,12 +1,14 @@
+import Model.Location;
+import Model.ToDo;
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 public class Task {
     @Test
-    public void task2(){
+    public void task1() {
         /**
-         * Task 2
+         * Task 1
          * create a request to https://httpstat.us/203
          * expect status 203
          * expect content type TEXT
@@ -19,6 +21,34 @@ public class Task {
                 .log().all()
                 .statusCode(203)
                 .contentType(ContentType.TEXT)
-                ;
+        ;
+
     }
+    @Test
+    public void task2(){
+        /**
+         * Task 2
+         * create a request to https://jsonplaceholder.typicode.com/todos/2
+         * expect status 200
+         * Converting Into POJO
+         */
+        ToDo todo=
+        given()
+
+
+                .when()
+                .get("https://jsonplaceholder.typicode.com/todos/2")
+
+
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract().body().as(ToDo.class)
+        ;
+        System.out.println("todo = " + todo);
+        System.out.println("todo.getTitle() = " + todo.getTitle());
+        System.out.println("todo.getId() = " + todo.getId());
+
+    }
+
 }
