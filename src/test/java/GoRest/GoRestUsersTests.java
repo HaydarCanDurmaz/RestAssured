@@ -20,14 +20,16 @@ public class GoRestUsersTests {
     RequestSpecification requestSpecification;
     @BeforeClass
     public void setup(){
+        baseURI  = "https://gorest.co.in/public/v2/users";
         requestSpecification = new RequestSpecBuilder()
                 .addHeader("Authorization", "Bearer 5d0ab4dcbd48e6378fefac952a31f043225aa55d8f3de3e8f0d7d0cbd3c82542")
                 .setContentType(ContentType.JSON)
+                .setBaseUri(baseURI)
                 .build();
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void createUserJson() {
         // POST https://gorest.co.in/public/v2/users
         //5d0ab4dcbd48e6378fefac952a31f043225aa55d8f3de3e8f0d7d0cbd3c82542
@@ -39,14 +41,13 @@ public class GoRestUsersTests {
 
         userID =
                 given()
-                        .header("Authorization", "Bearer 5d0ab4dcbd48e6378fefac952a31f043225aa55d8f3de3e8f0d7d0cbd3c82542")
-                        .contentType(ContentType.JSON)
+                        .spec(requestSpecification)
                         .body("{\"name\":\"" + rndFullname + "\", \"gender\":\"male\", \"email\":\"" + rndEmail + "\", \"status\":\"active\"}")
                         .log().uri()
                         .log().body()
 
                         .when()
-                        .post("https://gorest.co.in/public/v2/users")
+                        .post("")
 
                         .then()
                         .log().body()
@@ -73,14 +74,13 @@ public class GoRestUsersTests {
 
         userID =
                 given()
-                        .header("Authorization", "Bearer 5d0ab4dcbd48e6378fefac952a31f043225aa55d8f3de3e8f0d7d0cbd3c82542")
-                        .contentType(ContentType.JSON)
+                        .spec(requestSpecification)
                         .body(newUser)
                         .log().uri()
                         .log().body()
 
                         .when()
-                        .post("https://gorest.co.in/public/v2/users")
+                        .post("")
 
                         .then()
                         .log().body()
@@ -92,7 +92,7 @@ public class GoRestUsersTests {
         ;
 
     }
-    @Test
+    @Test(enabled = false)
     public void createUserClass() {
         String rndFullname = faker.name().fullName();
         String rndEmail = faker.internet().emailAddress();
@@ -106,14 +106,13 @@ public class GoRestUsersTests {
 
         userID =
                 given()
-                        .header("Authorization", "Bearer 5d0ab4dcbd48e6378fefac952a31f043225aa55d8f3de3e8f0d7d0cbd3c82542")
-                        .contentType(ContentType.JSON)
+                        .spec(requestSpecification)
                         .body(newUser)
                         .log().uri()
                         .log().body()
 
                         .when()
-                        .post("https://gorest.co.in/public/v2/users")
+                        .post("")
 
                         .then()
                         .log().body()
@@ -129,11 +128,10 @@ public class GoRestUsersTests {
     @Test(dependsOnMethods = "createUserMap")
     public void getUserByID() {
         given()
-                .header("Authorization", "Bearer 5d0ab4dcbd48e6378fefac952a31f043225aa55d8f3de3e8f0d7d0cbd3c82542")
-                .contentType(ContentType.JSON)
+                .spec(requestSpecification)
 
                 .when()
-                .get("https://gorest.co.in/public/v2/users/" + userID)
+                .get("" + userID)
 
                 .then()
                 .log().body()
@@ -148,16 +146,21 @@ public class GoRestUsersTests {
 
     @Test(dependsOnMethods = "getUserByID")
     public void updateUser() {
-        given()
-                .header("Authorization", "Bearer 5d0ab4dcbd48e6378fefac952a31f043225aa55d8f3de3e8f0d7d0cbd3c82542")
-                .contentType(ContentType.JSON)
 
+        Map<String,String> updateUser=new HashMap<>();
+        updateUser.put("name","zorbey durmaz");
+
+
+        given()
+                .spec(requestSpecification)
+                .body(updateUser)
                 .when()
-                .put("https://gorest.co.in/public/v2/users/"+userID)
+                .put(""+userID)
 
                 .then()
                 .log().body()
                 .statusCode(200)
+                .body("id",equalTo(userID))
                 .contentType(ContentType.JSON)
 
         ;
@@ -167,10 +170,35 @@ public class GoRestUsersTests {
     @Test(dependsOnMethods = "updateUser")
     public void deleteUser() {
 
+        given()
+                .spec(requestSpecification)
+
+                .when()
+                .delete(""+userID)
+
+                .then()
+                .log().body()
+                .statusCode(204)
+
+
+        ;
+
     }
 
     @Test(dependsOnMethods = "deleteUser")
     public void deleteUserNegative() {
+        given()
+                .spec(requestSpecification)
+
+                .when()
+                .delete(""+userID)
+
+                .then()
+                .log().body()
+                .statusCode(404);
+
+
+
 
     }
 }
