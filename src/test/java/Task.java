@@ -1,6 +1,7 @@
 import Model.Location;
 import Model.ToDo;
 import io.restassured.http.ContentType;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -76,6 +77,43 @@ public class Task {
 
                 ;
 
+    }
+    /**
+     * Task 4
+     * create a request to https://jsonplaceholder.typicode.com/todos/2
+     * expect status 200
+     * expect content type JSON
+     * expect response completed status to be false(hamcrest)
+     * extract completed field and testNG assertion(testNG)
+     */
+
+    @Test
+    public void task4(){
+        // Birinci Yöntem (hamscrest)
+        given()
+
+                .when()
+                .get("https://jsonplaceholder.typicode.com/todos/2")
+
+                .then()
+                .log().body()
+                .statusCode(200)
+                .body("completed",equalTo(false))
+                ;
+
+        // ikinci Yöntem (TEstNG)
+        Boolean completed=
+        given()
+
+                .when()
+                .get("https://jsonplaceholder.typicode.com/todos/2")
+
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract().path("completed")
+        ;
+        Assert.assertFalse(completed);
     }
 
 }
