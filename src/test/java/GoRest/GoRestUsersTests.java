@@ -1,4 +1,6 @@
 package GoRest;
+
+import com.github.javafaker.Faker;
 import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
 
@@ -6,17 +8,24 @@ import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 public class GoRestUsersTests {
+    Faker faker = new Faker();
+    int userID;
+
     @Test
-    public void createUser(){
+    public void createUser() {
         // POST https://gorest.co.in/public/v2/users
         //5d0ab4dcbd48e6378fefac952a31f043225aa55d8f3de3e8f0d7d0cbd3c82542
         // {"name":"{{$randomFullName}}", "gender":"male", "email":"{{$randomEmail}}", "status":"active"}
 
-        int userID=
+
+        String rndFullname = faker.name().fullName();
+        String rndEmail = faker.internet().emailAddress();
+
+        userID=
         given()
-                .header("Authorization","Bearer 5d0ab4dcbd48e6378fefac952a31f043225aa55d8f3de3e8f0d7d0cbd3c82542")
+                .header("Authorization", "Bearer 5d0ab4dcbd48e6378fefac952a31f043225aa55d8f3de3e8f0d7d0cbd3c82542")
                 .contentType(ContentType.JSON)
-                .body("{\"name\":\"zorbeyDurmaz\", \"gender\":\"male\", \"email\":\"zorbey@gmail.com\", \"status\":\"active\"}")
+                .body("{\"name\":\"" + rndFullname + "\", \"gender\":\"male\", \"email\":\"" + rndEmail + "\", \"status\":\"active\"}")
                 .log().uri()
                 .log().body()
 
@@ -30,23 +39,27 @@ public class GoRestUsersTests {
                 .extract().path("id")
 
 
-                ;
+        ;
 
     }
+
     @Test
-    public void getUserByID(){
+    public void getUserByID() {
 
     }
+
     @Test
-    public void updatUser(){
+    public void updatUser() {
 
     }
+
     @Test
-    public void deleteUser(){
+    public void deleteUser() {
 
     }
+
     @Test
-    public void deleteUserNegative(){
+    public void deleteUserNegative() {
 
     }
 }
