@@ -1,10 +1,19 @@
 package GoRest;
 
 public class User {
+    int id;
     String name;
     String gender;
     String email;
     String status;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -41,10 +50,12 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +
                 ", email='" + email + '\'' +
                 ", status='" + status + '\'' +
                 '}';
     }
 }
+

@@ -177,7 +177,7 @@ public class GoRestUsersTests {
                 .delete(""+userID)
 
                 .then()
-                .log().body()
+                .log().all()
                 .statusCode(204)
 
 
@@ -194,7 +194,7 @@ public class GoRestUsersTests {
                 .delete(""+userID)
 
                 .then()
-                .log().body()
+                .log().all()
                 .statusCode(404);
 
 
