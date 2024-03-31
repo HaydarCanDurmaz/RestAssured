@@ -4,24 +4,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Place {
     String placename;
-    String longitute;
+    String longitude;
     String state;
     String stateabbreviation;
+    String latitude;
+
 
     public String getPlacename() {
         return placename;
     }
+
     @JsonProperty("place name")
     public void setPlacename(String placename) {
         this.placename = placename;
     }
 
-    public String getLongitute() {
-        return longitute;
+    public String getLongitude() {
+        return longitude;
     }
 
-    public void setLongitute(String longitute) {
-        this.longitute = longitute;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
     public String getState() {
@@ -35,19 +38,29 @@ public class Place {
     public String getStateabbreviation() {
         return stateabbreviation;
     }
-@JsonProperty("state abbreviation")
+
+
+    @JsonProperty("state abbreviation")
     public void setStateabbreviation(String stateabbreviation) {
         this.stateabbreviation = stateabbreviation;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
     @Override
     public String toString() {
         return "Place{" +
                 "placename='" + placename + '\'' +
-                ", longitute='" + longitute + '\'' +
+                ", longitude='" + longitude + '\'' +
                 ", state='" + state + '\'' +
                 ", stateabbreviation='" + stateabbreviation + '\'' +
+                ", latitude='" + latitude + '\'' +
                 '}';
     }
 }
-

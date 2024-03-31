@@ -1,4 +1,3 @@
-import Model.Location;
 import Model.ToDo;
 import io.restassured.http.ContentType;
 import org.testng.Assert;

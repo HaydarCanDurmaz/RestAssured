@@ -1,4 +1,6 @@
 import GoRest.User;
+import Model.Location;
+import Model.Place;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
@@ -6,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
 
 public class PathAndJsonPath {
     @Test
@@ -92,5 +93,25 @@ public class PathAndJsonPath {
         // jsonPath : class dönüşümüne ve tip dönüşümüne izin vererek , veriyi istediğimiz formatta verir.
 
 
+    }
+    @Test
+    public void getZipCode(){
+
+        Response response =
+        given()
+
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+
+
+                .then()
+                //.log().body()
+                .extract().response()
+                ;
+        Location locPathas= response.as(Location.class);// Bütün classlarını yazmak zorundasın
+        System.out.println("locPathas = " + locPathas.getPlaces());
+
+        List<Place> places = response.jsonPath().getList("places",Place.class); //bNokta atışı istedigimiz nesneyi aldık
+        System.out.println("places = " + places);
     }
 }
